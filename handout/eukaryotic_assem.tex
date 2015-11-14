@@ -1,69 +1,49 @@
 % Define the module top matter
 % This gets used to create the chapter title page
-% NOTES:
-%  * When multiple people have authored or contributed to the module, simply use a LaTeX line break
-%    (a double-backslash: \\) at the end of each person.
-%  * If you don't want this information shown on the module chapter page, simply remove the lines
-%    within the \setModuleAuthors{} and \setModuleContributions{} environments
 \setModuleTitle{Eukaryotic Assembly}
 \setModuleAuthors{%
-  Jane Bloggs \mailto{jane.bloggs@example.com} \\
-  Joe Bloggs \mailto(joe.bloggs@example.com)
+  Bernardo Clavijo, TGAC \mailto{Bernardo.Clavijo@tgac.ac.uk} \\
 }
 \setModuleContributions{%
-  John Doe \mailto{john.dow@example.com}%
+  Sonika Tyagi, AGRF \mailto{sonika.tyagi@agrf.org.au}
 }
 
-% BEGIN: Module Title Page
-% This simply uses the above information and creates a module chapter page
-% NOTES:
-%  * The chapter page will always appear on odd numbered page
 \chapter{\moduleTitle}
 \newpage
 % END: Module Title Page
 
 
-% BEGIN: KLOs
-% Key Learning Outcomes (KLOs) are an important aspect of any learning/training. They provide
-% valuable infomation about what the trainee will have learned, what they will be able to do or know
-% abouti at the end of the module. Unlike objectives which are more trainer oriented, KOLs are
-% focused on the learner.
-% At the end of the module, the KLOs can be used to develop criteria for writing an assessment to
-% see if the trainees knowledge/skills have improved as a result of the module.
-% 
-% Search online for information on how to write KLOs. e.g.
-% http://www.teaching-learning.utas.edu.au/__data/assets/word_doc/0014/23333/Learning-outcomes-v9.1.doc
 \section{Key Learning Outcomes}
 
 After completing this module the trainee should be able to:
 \begin{itemize}
-  \item Assess the overall quality of NGS sequence reads
-  \item Visualise the quality, and other associated matrices, of reads to decide
-        on filters and cutoffs for cleaning up data ready for downstream analysis
-  \item Clean up and pre-process the sequences data for further analysis
+  \item Assess general assembly approach, kmer spectra and biases.
+  \item visually inspect the kmer spectra and KAT plots
+  \item run a first pass eukaryotic assembly and do goal checks 
 \end{itemize}
 % END KLOs
 
-% BEGIN: Resources Used
-% This section can be used to describe the tools and data used during the module. It helps to act as
-% a future reference to the trainee
 \section{Resources You'll be Using}
  
 \subsection{Tools Used}
 \begin{description}[style=multiline,labelindent=0cm,align=left,leftmargin=0.5cm]
-  \item[FastQC]\hfill\\
-  	\url{http://www.bioinformatics.babraham.ac.uk/projects/fastqc/}
-  \item[FASTX-Toolkit]\hfill\\
-  	\url{http://hannonlab.cshl.edu/fastx_toolkit/}
-  \item[Picard]\hfill\\
-  	\url{http://picard.sourceforge.net/}
+  \item[Kmer Analysis Tool kit]\hfill\\
+  	\url{https://github.com/TGAC/KAT}
+  \item[Nextclip]\hfill\\
+  	\url{https://github.com/richardmleggett/nextclip}
+  \item[Abyss]\hfill\\
+  	\url{http://www.bcgsc.ca/platform/bioinfo/software/abyss}
+  \item[Soap Denovo]\hfill\\
+  	\url{http://soap.genomics.org.cn/soapdenovo.html}
+  \item[SOAPec]\hfill\\
+  	\url{http://soap.genomics.org.cn/about.html}
 \end{description}
 
 \section{Useful Links}
  
 \begin{description}[style=multiline,labelindent=0cm,align=left,leftmargin=0.5cm]
-  \item[FASTQ Encoding]\hfill\\
-    \url{http://en.wikipedia.org/wiki/FASTQ_format#Encoding}
+  \item[]\hfill\\
+    \url{}
 \end{description}
 
 \newpage
@@ -71,6 +51,40 @@ After completing this module the trainee should be able to:
 
 % BEGIN: Introduction
 \section{Introduction}
+
+
+\begin{information}
+\end{information}
+
+
+
+
+\begin{steps}
+Assemble fusarium with abyss k=27:
+\begin{lstlisting}
+abyss-pe name=fusarium_k27 k=27 np=4 in=“../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq ../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq”
+\end{lstlisting}
+\end{steps}
+
+\begin{steps}
+Assemble fusarium with abyss k=71:
+\begin{lstlisting}
+abyss-pe name=fusarium_k71 k=71 np=4 in=“../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq ../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq”
+\end{lstlisting}
+\end{steps}
+
+\begin{questions}
+We can ask a simply question to test if the trainee is understanding what they are doing. 
+\begin{answer}
+We can maintain the answer along side the questions.
+\end{answer}
+\end{questions}
+%----------------
+
+Old info to delete latest
+
+%-------------------
+
 
 % To make a paragraph appear as a "note" to the reader, simply wrap it in a "note" environment like
 % this:
@@ -167,7 +181,6 @@ We can ask a simply question to test if the trainee is understanding what they a
 \begin{answer}
 We can maintain the answer along side the questions.
 \end{answer}
-
 \end{questions}
 
 \subsection{Code For Trainees to Copy/Type}
@@ -183,6 +196,7 @@ To provide a nicely formatted, copy-and-pastable command, simply wrap it in the
 \verb+\begin{lstlisting} ... \end{lstlisting}+ environment. Long commands will be wrapped
 automatically and bash line continuation characters (\textbackslash) inserted where required.
 
+\begin{steps}
 \begin{lstlisting}
 cd ~/QC
 fastx_clipper -h
