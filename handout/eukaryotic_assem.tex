@@ -21,6 +21,10 @@ After completing this module the trainee should be able to:
   \item Assess general assembly approach, kmer spectra and biases.
   \item visually inspect the kmer spectra and KAT plots
   \item run a first pass eukaryotic assembly and do goal checks 
+  \item Develop validation metrics or tools for NGS data and assembly.
+  \item Improving methods and pipelines for genome assembly.
+  \item Convince the lab guys to tweak protocols.
+
 \end{itemize}
 % END KLOs
 
@@ -52,9 +56,14 @@ After completing this module the trainee should be able to:
 
 % BEGIN: Introduction
 \section{Introduction}
-
+The aim of this module is to become familiar with performing \textit{de novo}
+genome assembly using Abyss, a de Bruijn graph based assembler, on a Fungi \textit{Fusarium}
+sequence data.
 
 \begin{information}
+The assembly is just a probabilistic model of a genome, condensing the information from the experimental evidence. 
+All the information is already present in the experimental results. The goal of the assembly is to find the right motifs, the correct number of times, in correct order and position.
+
 \end{information}
 
 \begin{note}
