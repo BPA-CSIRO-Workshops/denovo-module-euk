@@ -45,14 +45,12 @@ After completing this module the trainee should be able to:
 \end{description}
 
 \section{Data source}
- 
-\begin{description}[style=multiline,labelindent=0cm,align=left,leftmargin=0.5cm]
-  \item[]\hfill\\
-    \url{}
-\end{description}
+
+%\begin{information}
+%Information to be provided to the trainee.
+%\end{information}
 
 \newpage
-% END: Resources Used
 
 % BEGIN: Introduction
 \section{First Pass Genome Assembly}
@@ -80,160 +78,369 @@ ls
 \end{lstlisting}
 \end{steps}
 
+\subsection{Fusarium first pass with a goal}
+
 \begin{information}
-Assuming by now you are familiar with the general concept of \textit{de novo} assembly, kmers and the de Bruijn graph based assembler. In this tutorial we will use Abyss to perform  the first pass assembly of a eukaryotic genome and look at various parameters to assess the information content of the input data and choice of assembly parameters. We will perform the assembly with with kmer size 27 and 71, respectively and comapare the outputs.
+Goal: test horizontal gene transfer of necrotrophic genes
+\item Reference genome for \textit{F. graminareum} (non necrotrophic)
+\item Reference genome for \textit{F. pseudograminareum} (necrotrophic)
+\item Blast database of cereal pathogen proteins.
+\item Strategy: to check proteins on the necrotrophic genome, present on the protein database and not present on the non-necrotrophic genome.
+\item Assembly goal (I): to capture a good enough representation of the protein-coding space to get blast matches
+\item Assembly goal (II): to accurately represent possible horizontal-transfer loci.
+Assuming by now you are familiar with the general concept of \textit{de novo} assembly, kmers and the de Bruijn graph based assembler. In this tutorial we will use ABySS to perform  the first pass assembly of a eukaryotic genome and look at various parameters to assess the information content of the input data and choice of assembly parameters. We will perform the assembly with with kmer size 71 and 21, respectively and comapare the outputs.
+
 \end{information}
 
-
 \begin{steps}
-Assemble fusarium with abyss k=27:
+Let's assemble \textit{Fusarium} with abyss, k=71
 \begin{lstlisting}
-abyss-pe name=fusarium_k27 k=27 np=4 in=“../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq ../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq”
+cd ~/denovo/fusarium
+mkdir abyss_k71
+cd abyss_k71
+abyss-pe in="../CS3270_A8733_GCCAAT_L001_R1.fastq ../CS3270_A8733_GCCAAT_L001_R2.fastq" k=27 name=CS3270_abyss_k71 np=4 > CS3270_abyss_k71.log 2>&1
 \end{lstlisting}
 \end{steps}
 
 Description of the arguments used in the command:
 \begin{description}[style=multiline,labelindent=0cm,align=right,leftmargin=\descriptionlabelspace,rightmargin=1.5cm,font=\ttfamily]
   \item[k] = kmer size
-  \item[np] = 
+  \item[np] = number of processors to be used
   \item[sequence file names] = R1 and R2 reads of a paired end sequence data
 \end{description}
 
 \begin{steps}
-Assemble fusarium with abyss k=71:
+Let's look at the statistics of the assembly we just did... 
+
+Ok, there is no stats available in the folder, but we can always use \texttt{abyss-fac} to get the stats:
 \begin{lstlisting}
-abyss-pe name=fusarium_k71 k=71 np=4 in=“../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq ../data/fusarium/CS3270_A8733_GCCAAT_L001_R1.fastq”
+abyss-fac CS3270_abyss_k71-*tigs.fa  | tee CS3270_abyss_k71-stats.tab
+less CS3270_abyss_k71-stats.tab
 \end{lstlisting}
 \end{steps}
 
+
+\begin{table}[H]
+  \centering
+  \caption{Statistics of fusarium assembly by ABySS using k=71}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+    27 & 13 & 2 & 970 & 6004 & 13202 & 52602 & 28712 & 52602 & 112849 & CS3270_abyss_k71-unitigs.fa\% \\
+    5 & 1 & 1 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & CS3270_abyss_k71-contigs.fa\% \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:fusariumk71}
+\end{table}
+
+
 \begin{questions}
-We can ask a simply question to test if the trainee is understanding what they are doing. 
+How many unitigs/contigs do you have in the assembly?
 \begin{answer}
-We can maintain the answer along side the questions.
+27/5
 \end{answer}
+What are the length statistics of your assembly?
+\begin{answer}
+in the table above
+\end{answer}
+Does it match what you think before the assembly and why?
+\begin{answer}
+No
+\end{answer}
+
 \end{questions}
-%----------------
-
-Old info to delete later
-
-%-------------------
 
 
-% To make a paragraph appear as a "note" to the reader, simply wrap it in a "note" environment like
-% this:
-\begin{note}
-This is an important note to the reader. The paragraph get's it own margin icon and formatting to
-ensure it stands out.
-\end{note}
+\begin{steps}
+The assembly is looking strange! It's time for some analysis:
 
-There are 10 characters which have special meaning in \LaTeX and to have them displayed as literal
-characters we need to do something special. The first seven can simply be prepended by a backslash;
-for the other three, we must use the macros \verb+\textasciitilde+, \verb+\textasciicircum+,
-\verb+\textbackslash+.
+\item Check frequencies for kmers kept/discarded/etc.
+\item Check spectra-cn and compare with expectations.
+Let's do this by the following commands:
 
+\begin{lstlisting}
+less CS3270_abyss_k71.log 
+less coverage.hist
 
-\& \% \$ \# \_ \{ \}
+gnuplot
+gnuplot> set xrange [0:50]
+gnuplot> set yrange [0:4000000]
+gnuplot> plot "coverage.hist"
 
-\textasciitilde
+gnuplot
+gnuplot> set xrange [0:200]
+gnuplot> set yrange [0:5000]
+gnuplot> plot "coverage.hist"
+kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
+kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
+\end{lstlisting}
+\end{steps}
 
-\textasciicircum
+The kmer spectra for \textit{Fusarium} assembly with abyss, k=71 should be looking like this:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{handout/abyss-k71.png}
+\caption{Kmer spectrum for \textit{Fusarium} assembly with abyss, k=71, coloured by the frequencies asfound on the reference assembly.}
+\label{fig:fusariumk71}
+\end{figure}
 
-\textbackslash
+Take the output and BLAST it in NCBI. What is it? Surprising?
 
-Highly redundant coverage ($>$15X) of the genome can be used to correct sequencing
-errors in the reads before assembly and errors. Various k-mer based error
-correction methods exist but are beyond the scope of this tutorial.
+\begin{steps}
+\end{steps}
 
-In order to use a single character to encode Phred qualities, ASCII characters
-are used (\url{http://shop.alterlinks.com/ascii-table/ascii-table-us.php}). All ASCII characters have a decimal
-number associated with them but the first 32 characters are non-printable (e.g.
+Choosing a wrong k value (too large in this case) and just running a typical assembly job, we can end up with something quite more interesting. It is easy by comparison to spot some missing content, alongside duplications and triplications (and quadruplications and so on) that should not be there.
+This assembly will get us nowhere, let's choose a lower K to gain coverage and start again.
+\begin{steps}
+We now assemble \textit{fusarium} with \texttt{abyss} and k=27:
+\begin{lstlisting}
+cd ~/denovo/fusarium
+mkdir abyss_k27
+cd abyss_k27
+abyss-pe in="../CS3270_A8733_GCCAAT_L001_R1.fastq ../CS3270_A8733_GCCAAT_L001_R2.fastq" k=27 name=CS3270_abyss_k27 np=4 > CS3270_abyss_k27.log 2>&1
+\end{lstlisting}
 
-Because ASCII characters $<$ 33 are non-printable, using the Phred+33 encoding was
-not possible. Therefore, they simply moved the offset from 33 to 64 thus
+\begin{steps}
+Let's look at the stats by doing:
+\begin{lstlisting}
+less CS3270_abyss_k27-stats.tab
+\end{lstlisting}
+\end{steps}
 
-schema it is not always possible to identify what encoding is in use. For
-example, if the only characters seen in the quality string are (\texttt{@ABCDEFGHI}),
-then it is impossible to know if you have really good Phred+33 encoded qualities
-or really bad Phred+64 encoded qualities.
+Stats look better:
+\begin{table}[H]
+  \centering
+  \caption{Statistics of fusarium assembly by ABySS using k=27}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+    30645  & 2717   & 430  & 502  & 11354   & 25336   & 47966    & 31027   & 147694   & 36.14e6  & CS3270_abyss_k27-unitigs.fa
+	21511  & 350    & 33   & 527  & 157565  & 338989  & 630228   & 407098  & 1265237  & 36.52e6  & CS3270_abyss_k27-contigs.fa
+	21327  & 205    & 17   & 527  & 332444  & 716132  & 1265237  & 791882  & 1880850  & 36.51e6  & CS3270_abyss_k27-scaffolds.fa
+    \bottomrule
+    \end{tabular}
+  \label{tab:fusariumk27}
+\end{table}
 
-\subsection{Tables}
+Let's check a bit anyway:
 
-Writing tables in \LaTeX is HARD! Rather than write them from scratch, I'd head over to
-\url{http://www.tablesgenerator.com/latex_tables}, generate the table you want using the interactive
-page and copy the resulting \LaTeX into your source file.
+\begin{lstlisting}
+less CS3270_abyss_k71.log
+less coverage.hist
+gnuplot
+gnuplot> set xrange [0:50]
+gnuplot> set xrange [0:4000000]
+gnuplot> plot "coverage.hist"
 
-\begin{tabular}{llr}
-\hline
-\multicolumn{2}{c}{Item} \\
-\cline{1-2}
-Animal    & Description & Price (\$) \\
-\hline
-Gnat      & per gram    & 13.65      \\
-          & each        & 0.01       \\
-Gnu       & stuffed     & 92.50      \\
-Emu       & stuffed     & 33.33      \\
-Armadillo & frozen      & 8.99       \\
-\hline
-\end{tabular}
-
-\subsection{Figures}
-
-No handout is complete without figures, screenshots or similar.
+kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
+\end{lstlisting}
+\end{steps}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{handout/bad_example.png}
-\caption{Per base sequence quality plot for \texttt{bad\_example.fastq}.}
-\label{fig:bad_example_untrimmed_plot}
+\includegraphics[width=0.8\textwidth]{handout/abyss-k27.png}
+\caption{Kmer spectrum for \textit{Fusarium} assembly with abyss, k=27, coloured by the frequencies asfound on the reference assembly.}
+\label{fig:fusariumk27}
 \end{figure}
 
-\subsection{Maths Environment}
-
-I won't pretend to be an expert in \LaTeX but I do know that one of the strengths of \LaTeX is it's
-ability to allow mathematical formulas to be constructed and typeset very easily. Firstly, you have
-to tell \LaTeX what text is going to contain mathematical symbols.
-
-For inline display, simply surround the relevant text by dollar signs: \verb+$Q(A) =-10 log10(P(\simA))$+
-
-For more complex mathematical formulas which need to be displayed separately, use the
-\verb+\begin{displaymath} ... \end{displaymath}+ environment to wrap around your formulas.
-
-\begin{displaymath}
-Q(A) =-10 log10(P(\simA))
-\end{displaymath} 
-
-
-\subsection{Questions and Answers}
-
-It is useful to maintain the answers to questions together in the same \LaTeX source. By using the
-\verb+\begin{answer} ... \end{answer}+ environment we can have the enclosed answers excluded from
-the trainee's version of the handout while including it in the trainer's version of the handout.
 
 \begin{questions}
-We can ask a simply question to test if the trainee is understanding what they are doing. 
+Any tools I can use to check kmer spectra at any K before assembling?
 \begin{answer}
-We can maintain the answer along side the questions.
+KAT
 \end{answer}
 \end{questions}
 
-\subsection{Code For Trainees to Copy/Type}
+\begin{steps}
+Will the assembly answer the biological question?
 
-Different people have different opinions on whether it is a good idea to provide the commands for
-trainees to copy-and-paste. In our experience, there is a huge amount of time wasted by novices
-typing commands incorrectly or changing filenames which affects commands you might run later on. We
-also think that it's a good idea to pose regular questions or ask the trainees to modify a previous
-command. This way you can catch out those whoe are just trying to get ahead by blindly
-copying-and-pasting.
+Use BLAST and the databases to check...
+\end{steps}
 
-To provide a nicely formatted, copy-and-pastable command, simply wrap it in the
-\verb+\begin{lstlisting} ... \end{lstlisting}+ environment. Long commands will be wrapped
-automatically and bash line continuation characters (\textbackslash) inserted where required.
+\section{Scaffolding with long mate pair libraries: Chalara scaffolding using LMP}
+\subsection{Pair-end assembly using Chalara dataset}
+Before doing a scaffolding, we need to build an assembly using the pair-end reads first.
+\begin{steps}
+\begin{lstlisting}
+
+abyss-pe name=cha1 k=27 in="../LIB2570_raw_R1.fastq ../LIB2570_raw_R2.fastq" np=4
+
+\end{lstlisting}
+Let's look at the stats by doing:
+\begin{lstlisting}
+less cha1-stats.tab
+\end{lstlisting}
+
+\end{steps}
+
+\begin{table}[H]
+  \centering
+  \caption{Statistics of \textit{Chalara} assembly by ABySS using k=27}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+    394789  & 11681  & 2094  & 500  & 2880  & 6254  & 12303  & 7936    & 44414  & 44.07e6  & cha1-unitigs.fa
+	394199  & 11673  & 2097  & 500  & 2887  & 6255  & 12303  & 7937    & 44414  & 44.11e6  & cha1-contigs.fa
+	394161  & 11647  & 2095  & 500  & 2898  & 6269  & 12303  & 7944    & 44414  & 44.12e6  & cha1-scaffolds.fa
+    \bottomrule
+    \end{tabular}
+  \label{tab:chak27}
+\end{table}
+
 
 \begin{steps}
 \begin{lstlisting}
-cd ~/QC
-fastx_clipper -h
-fastx_clipper -v -Q 33 -l 20 -M 15 -a GATCGGAAGAGCGGTTCAGCAGGAATGCCGAG -i bad_example.fastq -o bad_example_clipped.fastq
+
+abyss-pe name=cha2 k=61 in="../LIB2570_raw_R1.fastq ../LIB2570_raw_R2.fastq" np=4
+\end{lstlisting}
+Again, we need to look at the statstics of our new assembly using k=61:
+\begin{lstlisting}
+less cha2-stats.tab
 \end{lstlisting}
 \end{steps}
 
+It should be looking like this:
+\begin{table}[H]
+  \centering
+  \caption{Statistics of \textit{Chalara} assembly by ABySS using k=61}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+	130547  & 12596  & 1770  & 500  & 3352  & 8379  & 16380  & 10518   & 54300  & 50.75e6  & cha2-unitigs.fa
+	130210  & 12575  & 1771  & 500  & 3363  & 8382  & 16380  & 10525   & 54300  & 50.78e6  & cha2-contigs.fa
+	130182  & 12555  & 1769  & 500  & 3377  & 8394  & 16380  & 10534   & 54300  & 50.78e6  & cha2-scaffolds.fa
+    \bottomrule
+    \end{tabular}
+  \label{tab:chak61}
+\end{table}
+
+\begin{questions}
+The assembly contiguity is worse than fusarium, why?
+\begin{answer}
+\item Genome characteristics.
+\item Data:
+\item Coverage
+\item Error distributions
+\item Read sizes
+\item Fragment sizes
+\item  Kmer spectra
+\end{answer}
+\end{questions}
+
+\subsection{Chalara scaffolding using long mate-pair reads(LMP)}
+
+Let's put some LMP in there.
+
+\begin{steps}
+\begin{lstlisting}
+abyss-pe name=chalmp1 k=61 in="../LIB2570_raw_R1.fastq ../LIB2570_raw_R2.fastq" mp="lmp1" lmp1="../LIB8209_raw_R1.fastq ../LIB8209_raw_R2.fastq" np=4
+less chalmp1-stats.tab
+\end{lstlisting}
+\end{steps}
+
+\begin{table}[H]
+  \centering
+  \caption{Statistics of fusarium assembly by ABySS using k=71}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+	130548  & 12596  & 1770  & 500  & 3352  & 8379  & 16380  & 10518   & 54300  & 50.75e6  & chalmp1-unitigs.fa
+	130211  & 12575  & 1771  & 500  & 3363  & 8382  & 16380  & 10525   & 54300  & 50.78e6  & chalmp1-contigs.fa
+	130148  & 12545  & 1769  & 500  & 3380  & 8400  & 16380  & 10535   & 54300  & 50.78e6  & chalmp1-scaffolds.fa
+    \bottomrule
+    \end{tabular}
+  \label{tab:chak27}
+\end{table}
+
+\begin{information}
+So... what happened?
+Data:
+\item Kmer spectra
+\item Fragment sizes
+\item Any hints on the protocol?
+A not-so-obvious property:
+\end{information}
+
+\begin{steps}
+\begin{lstlisting}
+kat plot spectra-mx --intersection -x 30 -y 15000000 -o pe_vs_lmp-main.mx.spectra-mx.png pe_vs_lmp-main.mx
+
+\end{lstlisting}
+\end{steps}
+
+\begin{information}
+LMP require pre-processing, right?
+\end{information}
+ Let's try with processed LMP
+
+\begin{steps}
+Prior task (already made) preprocess the LMP with nextclip.
+
+\begin{lstlisting}
+
+abyss-pe name=chalmpproc1 k=61 in="../../cha_raw/LIB2570_raw_R1.fastq ../../cha_raw/LIB2570_raw_R2.fastq" mp="proclmp1" proclmp1="../LIB8209_preproc_R1.fastq ../LIB8209_preproc_R2.fastq" np=4
+\end{lstlisting}
+
+\begin{table}[H]
+  \centering
+  \caption{Statistics of fusarium assembly by ABySS using k=71}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+	130548  & 12596  & 1770  & 500  & 3352   & 8379   & 16380   & 10518   & 54300   & 50.75e6  & chalmpproc1-unitigs.fa
+	130211  & 12575  & 1771  & 500  & 3363   & 8382   & 16380   & 10525   & 54300   & 50.78e6  & chalmpproc1-contigs.fa
+	122061  & 6679   & 167   & 500  & 18609  & 87510  & 187171  & 106178  & 397967  & 51.15e6  & chalmpproc1-scaffolds.fa
+    \bottomrule
+    \end{tabular}
+  \label{tab:chak27}
+\end{table}
+
+That's much better!
+\end{steps}
+
+\section{Chalara: beyond first pass}
+Do you remember these?
+
+Genome characteristics.
+Data:
+ \item Coverage
+ \item Error distributions
+ \item Read sizes
+ \item Fragment sizes
+ \item Kmer spectra
+
+Let's think a bit and try to improve the assembly...
+
+\begin{questions}
+If you look at the pre-processed LMP, do you notice anything peculiar?
+\begin{answer}
+Needs to fill
+\end{answer}
+\end{questions}
+\begin{steps}
+Testing the inclussion of heavily pre-procesed LMP coverage into the DBG
+\begin{lstlisting}
+abyss-pe name=chalmp2 k=61 se="../LIB8209_preproc_single.fastq" lib="lmp1" lmp1="../LIB8209_preproc_R1.fastq ../LIB8209_preproc_R2.fastq" np=4 >chaproclmp2.log 2>&1
+\end{lstlisting}
+Let's look at 
+\end{steps}
+\begin{table}[H]
+  \centering
+  \caption{Statistics of fusarium assembly by ABySS using k=71}
+    \begin{tabular}{rrrrrrrrrrr}
+    \toprule
+    \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
+    \midrule
+	128306  & 10150  & 1182  & 500  & 4954   & 12585   & 24777   & 15693   & 68684   & 51.03e6  & chaproclmp4-unitigs.fa
+	118939  & 5772   & 362   & 500  & 15717  & 41870   & 82033   & 52819   & 252066  & 52.24e6  & chaproclmp4-contigs.fa
+	116139  & 4014   & 141   & 500  & 41145  & 109273  & 224986  & 133450  & 460979  & 52.56e6  & chaproclmp4-scaffolds.fa
+    \bottomrule
+    \end{tabular}
+  \label{tab:chak27}
+\end{table}
