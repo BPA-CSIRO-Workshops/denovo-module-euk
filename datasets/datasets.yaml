@@ -1,0 +1,13 @@
+btp::modules:
+  eukaryotic: 
+    dirs:
+      - 'eukaryotic'
+    data:
+      CS3270_A8733_GCCAAT_L001_R1.fastq: 
+        source: 'https://s3-ap-southeast-2.amazonaws.com/denovo-data-eukaryotic'
+        targets: 
+          - 'eukaryotic/CS3270_A8733_GCCAAT_L001_R1.fastq'
+      CS3270_A8733_GCCAAT_L001_R2.fastq: 
+        source: 'https://s3-ap-southeast-2.amazonaws.com/denovo-data-eukaryotic'
+        targets: 
+          - 'eukaryotic/CS3270_A8733_GCCAAT_L001_R2.fastq'
