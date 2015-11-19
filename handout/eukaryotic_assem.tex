@@ -55,10 +55,14 @@ After completing this module the trainee should be able to:
 % BEGIN: Introduction
 \section{First Pass Genome Assembly}
 \begin{information}
-The aim of this module is to become familiar with performing \textit{de novo}
-genome assembly using Abyss, a de Bruijn graph based assembler, on a Fungi \textit{Fusarium}
-sequence data.
-% A couple of lines to introduce the dataset can go in here.
+Assuming by now you are familiar with the general concept of \textit{de novo} assembly, kmers and the de Bruijn graph based assembler. In this tutorial we will use ABySS to perform  the first pass assembly of a eukaryotic genome and look at various parameters to assess the information content of the input data and choice of assembly parameters. 
+sequence data. 
+Genome assembly is a challenging problem requiring heavy computational resources, expertise and time. Before you beging the process of denovo assembly there are a number of points you need to consider:
+\item What is the objective of your assembly experiment ? What biological question(s) you have ?
+\item Is assembly strictly neccessary for the purpose in question ?
+\item Do you have right kind of data and enough coverage to start with ?
+\item Do you have suitable computaitonal resources to run this assembly ?
+
 \end{information}
 
 \begin{note}
@@ -68,15 +72,6 @@ experimental results. The goal of the assembly is to find the right motifs,
 the correct number of times, in correct order and position.
 \end{note}
 
-\section{Prepare the Environment}
-\begin{steps}
-Open the Terminal.
-First, go to the right folder, where the data are stored.
-\begin{lstlisting}
-cd /home/trainee/euk_assem
-ls
-\end{lstlisting}
-\end{steps}
 
 \subsection{Fusarium first pass with a goal}
 
@@ -88,13 +83,26 @@ Goal: test horizontal gene transfer of necrotrophic genes
 \item Strategy: to check proteins on the necrotrophic genome, present on the protein database and not present on the non-necrotrophic genome.
 \item Assembly goal (I): to capture a good enough representation of the protein-coding space to get blast matches
 \item Assembly goal (II): to accurately represent possible horizontal-transfer loci.
-Assuming by now you are familiar with the general concept of \textit{de novo} assembly, kmers and the de Bruijn graph based assembler. In this tutorial we will use ABySS to perform  the first pass assembly of a eukaryotic genome and look at various parameters to assess the information content of the input data and choice of assembly parameters. We will perform the assembly with with kmer size 71 and 21, respectively and comapare the outputs.
+
 
 \end{information}
+
+\section{Prepare the Environment}
+\begin{steps}
+Open the Terminal.
+First, go to the right folder, where the data are stored.
+\begin{lstlisting}
+cd /home/trainee/euk_assem
+ls
+\end{lstlisting}
+\end{steps}
+
+\subsection{Task1.1: First pass assembly, k=71}
 
 \begin{steps}
 Let's assemble \textit{Fusarium} with abyss, k=71
 \begin{lstlisting}
+%%%%%%% CHECK THE PATH IN THE VM
 cd ~/denovo/fusarium
 mkdir abyss_k71
 cd abyss_k71
@@ -162,16 +170,28 @@ Let's do this by the following commands:
 \begin{lstlisting}
 less CS3270_abyss_k71.log 
 less coverage.hist
+\end{lstlisting}
+\end{steps}
 
-gnuplot
-gnuplot> set xrange [0:50]
-gnuplot> set yrange [0:4000000]
-gnuplot> plot "coverage.hist"
-
-gnuplot
+\begin{steps}
+We will now plot the values from the \texttt{coverage.hist}:
+\begin{lstlisting}
+gnuplot <Press enter>
+%gnuplot> set xrange [0:50]
+%gnuplot> set yrange [0:4000000]
+%gnuplot> plot "coverage.hist"
+%%%%%%% CHECK one of the plotting commands need to be deleted
+%gnuplot
 gnuplot> set xrange [0:200]
 gnuplot> set yrange [0:5000]
 gnuplot> plot "coverage.hist"
+\end{lstlisting}
+\end{steps}
+
+
+\start{steps}
+Let us generate k-mer spectra of this assembly:
+\start{lstlisting}
 kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
 kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
 \end{lstlisting}
@@ -188,10 +208,13 @@ The kmer spectra for \textit{Fusarium} assembly with abyss, k=71 should be looki
 Take the output and BLAST it in NCBI. What is it? Surprising?
 
 \begin{steps}
+%Blast commands, May be pre-cooked
 \end{steps}
 
 Choosing a wrong k value (too large in this case) and just running a typical assembly job, we can end up with something quite more interesting. It is easy by comparison to spot some missing content, alongside duplications and triplications (and quadruplications and so on) that should not be there.
 This assembly will get us nowhere, let's choose a lower K to gain coverage and start again.
+
+\subsection{Task1.2: First pass assembly, k=71}
 \begin{steps}
 We now assemble \textit{fusarium} with \texttt{abyss} and k=27:
 \begin{lstlisting}
@@ -224,16 +247,32 @@ Stats look better:
   \label{tab:fusariumk27}
 \end{table}
 
-Let's check a bit anyway:
 
+\begin{steps}
+Let's check a bit anyway:
 \begin{lstlisting}
 less CS3270_abyss_k71.log
 less coverage.hist
+\end{lstlisting}
+\end{steps}
+
+\startend{steps}
+How is the coverage plot looking now?
+\start{lstlisting}
 gnuplot
 gnuplot> set xrange [0:50]
 gnuplot> set xrange [0:4000000]
 gnuplot> plot "coverage.hist"
+%exit gnuplot
 
+\end{lstlisting}
+\end{steps}
+
+
+
+\start{steps}
+K-mer spectrum:
+\startend{lstlisting}
 kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
 \end{lstlisting}
 \end{steps}
