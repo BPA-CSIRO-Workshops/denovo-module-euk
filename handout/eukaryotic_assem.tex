@@ -344,7 +344,7 @@ less chalmp1-stats.tab
 
 \begin{table}[H]
   \centering
-  \caption{Statistics of fusarium assembly by ABySS using k=71}
+  \caption{Statistics of \textit{Chalara} assembly by ABySS using k=27}
     \begin{tabular}{rrrrrrrrrrr}
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
@@ -359,7 +359,7 @@ less chalmp1-stats.tab
 
 \begin{information}
 So... what happened?
-Data:
+Let's check the data by:
 \item Kmer spectra
 \item Fragment sizes
 \item Any hints on the protocol?
@@ -374,21 +374,21 @@ kat plot spectra-mx --intersection -x 30 -y 15000000 -o pe_vs_lmp-main.mx.spectr
 \end{steps}
 
 \begin{information}
-LMP require pre-processing, right?
+Do you remember LMP require pre-processing?  Let's try with processed LMP.
 \end{information}
- Let's try with processed LMP
 
 \begin{steps}
 Prior task (already made) preprocess the LMP with nextclip.
 
 \begin{lstlisting}
-
 abyss-pe name=chalmpproc1 k=61 in="../../cha_raw/LIB2570_raw_R1.fastq ../../cha_raw/LIB2570_raw_R2.fastq" mp="proclmp1" proclmp1="../LIB8209_preproc_R1.fastq ../LIB8209_preproc_R2.fastq" np=4
+less chalmpproc1-stats.tab
 \end{lstlisting}
+\end{steps}
 
 \begin{table}[H]
   \centering
-  \caption{Statistics of fusarium assembly by ABySS using k=71}
+  \caption{Statistics of \textit{Chalara} assembly by ABySS using k=61 with LMP}
     \begin{tabular}{rrrrrrrrrrr}
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
@@ -398,11 +398,10 @@ abyss-pe name=chalmpproc1 k=61 in="../../cha_raw/LIB2570_raw_R1.fastq ../../cha_
 	122061  & 6679   & 167   & 500  & 18609  & 87510  & 187171  & 106178  & 397967  & 51.15e6  & chalmpproc1-scaffolds.fa
     \bottomrule
     \end{tabular}
-  \label{tab:chak27}
+  \label{tab:chaklmpk61}
 \end{table}
 
 That's much better!
-\end{steps}
 
 \section{Chalara: beyond first pass}
 Do you remember these?
@@ -427,12 +426,13 @@ Needs to fill
 Testing the inclussion of heavily pre-procesed LMP coverage into the DBG
 \begin{lstlisting}
 abyss-pe name=chalmp2 k=61 se="../LIB8209_preproc_single.fastq" lib="lmp1" lmp1="../LIB8209_preproc_R1.fastq ../LIB8209_preproc_R2.fastq" np=4 >chaproclmp2.log 2>&1
+less chalmp2-stats.tab
 \end{lstlisting}
-Let's look at 
 \end{steps}
+Let's look at the stats.
 \begin{table}[H]
   \centering
-  \caption{Statistics of fusarium assembly by ABySS using k=71}
+  \caption{Statistics of improved \textit{Chalara} assembly by ABySS using k=61 with LMP}
     \begin{tabular}{rrrrrrrrrrr}
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
@@ -442,5 +442,5 @@ Let's look at
 	116139  & 4014   & 141   & 500  & 41145  & 109273  & 224986  & 133450  & 460979  & 52.56e6  & chaproclmp4-scaffolds.fa
     \bottomrule
     \end{tabular}
-  \label{tab:chak27}
+  \label{tab:chaklmp2-k61}
 \end{table}
