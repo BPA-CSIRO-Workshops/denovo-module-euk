@@ -103,7 +103,7 @@ ls
 Let's assemble \textit{Fusarium} with abyss, k=71
 \begin{lstlisting}
 %%%%%%% CHECK THE PATH IN THE VM
-cd ~/denovo/fusarium
+cd /home/trainee/euk_assem/fusarium
 mkdir abyss_k71
 cd abyss_k71
 abyss-pe in="../CS3270_A8733_GCCAAT_L001_R1.fastq ../CS3270_A8733_GCCAAT_L001_R2.fastq" k=27 name=CS3270_abyss_k71 np=4 > CS3270_abyss_k71.log 2>&1
@@ -177,11 +177,6 @@ less coverage.hist
 We will now plot the values from the \texttt{coverage.hist}:
 \begin{lstlisting}
 gnuplot <Press enter>
-%gnuplot> set xrange [0:50]
-%gnuplot> set yrange [0:4000000]
-%gnuplot> plot "coverage.hist"
-%%%%%%% CHECK one of the plotting commands need to be deleted
-%gnuplot
 gnuplot> set xrange [0:200]
 gnuplot> set yrange [0:5000]
 gnuplot> plot "coverage.hist"
@@ -298,3 +293,6 @@ Will the assembly answer the biological question?
 Use BLAST and the databases to check...
 \end{steps}
 
+\begin{enumerate}
+  \item De novo genome assembly: what every biologist should know Nature Methods 9, 333–337 (2012) doi:10.1038/nmeth.1935 
+\end{enumerate}
