@@ -80,7 +80,7 @@ Goal: Identify a fusarium sample is "closer" to \textit{F. graminearum} or \text
 \begin{itemize}
 	\item Previous knowledge
 		\begin{itemize}
-		\textit{F. graminareum} has a cluster producing PKS6 and NRSP7, while F. pseudograminareum produces PKS40 and NRPS32
+		\item \textit{F. graminareum} has a cluster producing PKS6 and NRSP7, while F. pseudograminareum produces PKS40 and NRPS32
 		\end{itemize}
 	\item Data
 		\begin{itemize}
@@ -152,8 +152,8 @@ less CS3270_abyss_k71-stats.tab
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
     \midrule
-    27 & 13 & 2 & 970 & 6004 & 13202 & 52602 & 28712 & 52602 & 112849 & CS3270_abyss_k71-unitigs.fa\% \\
-    5 & 1 & 1 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & CS3270_abyss_k71-contigs.fa\% \\
+    27 & 13 & 2 & 970 & 6004 & 13202 & 52602 & 28712 & 52602 & 112849 & CS3270\_abyss\_k71-unitigs.fa\% \\
+    5 & 1 & 1 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & CS3270\_abyss\_k71-contigs.fa\% \\
     \bottomrule
     \end{tabular}
   \label{tab:fusariumk71}
@@ -203,9 +203,9 @@ gnuplot> exit
 \end{steps}
 
 
-\start{steps}
+\begin{steps}
 Looks like we are not assembling this bit, let's have another look at the spectra
-\start{lstlisting}
+\begin{lstlisting}
 %kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
 kat comp -o reads_vs_abyss_k71 -t 4 -C -D --d1_bins 2000 '../*.fastq' CS3270_abyss_k71-contigs.fa
@@ -256,9 +256,9 @@ Stats look better:
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
     \midrule
-    30645  & 2717   & 430  & 502  & 11354   & 25336   & 47966    & 31027   & 147694   & 36.14e6  & CS3270_abyss_k27-unitigs.fa
-	21511  & 350    & 33   & 527  & 157565  & 338989  & 630228   & 407098  & 1265237  & 36.52e6  & CS3270_abyss_k27-contigs.fa
-	21327  & 205    & 17   & 527  & 332444  & 716132  & 1265237  & 791882  & 1880850  & 36.51e6  & CS3270_abyss_k27-scaffolds.fa
+    30645  & 2717   & 430  & 502  & 11354   & 25336   & 47966    & 31027   & 147694   & 36.14e6  & CS3270\_abyss\_k27-unitigs.fa \\
+	21511  & 350    & 33   & 527  & 157565  & 338989  & 630228   & 407098  & 1265237  & 36.52e6  & CS3270\_abyss\_k27-contigs.fa \\
+	21327  & 205    & 17   & 527  & 332444  & 716132  & 1265237  & 791882  & 1880850  & 36.51e6  & CS3270\_abyss\_k27-scaffolds.fa \\
     \bottomrule
     \end{tabular}
   \label{tab:fusariumk27}
@@ -273,9 +273,9 @@ less coverage.hist
 \end{lstlisting}
 \end{steps}
 
-\startend{steps}
+\begin{steps}
 How is the coverage plot looking now?
-\start{lstlisting}
+\begin{lstlisting}
 gnuplot
 gnuplot> set xrange [0:50]
 gnuplot> set xrange [0:4000000]
@@ -288,9 +288,9 @@ gnuplot> exit
 
 
 
-\start{steps}
+\begin{steps}
 K-mer spectrum:
-\startend{lstlisting}
+\begin{lstlisting}
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
 kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffolds.fa
 
