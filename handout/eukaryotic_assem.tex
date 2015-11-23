@@ -76,14 +76,31 @@ the correct number of times, in correct order and position.
 \subsection{Fusarium first pass with a goal}
 
 \begin{information}
-Goal: test horizontal gene transfer of necrotrophic genes
-\item Reference genome for \textit{F. graminareum} (non necrotrophic)
-\item Reference genome for \textit{F. pseudograminareum} (necrotrophic)
-\item Blast database of cereal pathogen proteins.
-\item Strategy: to check proteins on the necrotrophic genome, present on the protein database and not present on the non-necrotrophic genome.
-\item Assembly goal (I): to capture a good enough representation of the protein-coding space to get blast matches
-\item Assembly goal (II): to accurately represent possible horizontal-transfer loci.
-
+Goal: Identify a fusarium sample is "closer" to \textit{F. graminearum} or \textit{F.pseudograminearum}
+\begin{itemize}
+	\item Previous knowledge
+		\begin{itemize}
+		\textit{F. graminareum} has a cluster producing PKS6 and NRSP7, while F. pseudograminareum produces PKS40 and NRPS32
+		\end{itemize}
+	\item Data
+		\begin{itemize}
+		\item Proteins sequences for:
+			\begin{itemize}
+			\item \textit{F. graminareum} (non necrotrophic): PKS6 and NRSP7
+			\item \textit{F. pseudograminareum} (necrotrophic): PKS40 and NRPS32
+			\end{itemize}
+		\item Blast database of cereal pathogen proteins.
+		\end{itemize}
+	\item Strategy:
+		\begin{itemize}
+		\item Check PKS6-NRSP7 and PKS40-NRPS32 cluster presence.
+		\end{itemize}
+	\item Assembly goals:
+		\begin{itemize}
+		\item Assembly goal (I): to capture a good enough representation of the protein-coding space to get blast matches
+		\item Assembly goal (II): to accurately represent the relevant whole cluster loci in a single sequence.
+		\end{itemize}
+\end{itemize}
 
 \end{information}
 
@@ -187,10 +204,13 @@ gnuplot> exit
 
 
 \start{steps}
-Let us generate k-mer spectra of this assembly:
+Looks like we are not assembling this bit, let's have another look at the spectra
 \start{lstlisting}
-kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
-kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
+%kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
+%kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
+kat comp -o reads_vs_abyss_k71 -t 4 -C -D --d1_bins 2000 '../*.fastq' CS3270_abyss_k71-contigs.fa
+kat plot spectra-cn -y 600 -x 2000 -o reads_vs_abyss1-main.mx.spectra-cn_2000.png reads_vs_abyss_k71-main.mx
+
 \end{lstlisting}
 \end{steps}
 
@@ -271,7 +291,9 @@ gnuplot> exit
 \start{steps}
 K-mer spectrum:
 \startend{lstlisting}
-kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
+%kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
+kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffolds.fa
+
 \end{lstlisting}
 \end{steps}
 
@@ -284,10 +306,15 @@ kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabse
 
 
 \begin{questions}
-Any tools I can use to check kmer spectra at any K before assembling?
+Any tools you can use to check kmer spectra at any K before assembling?
 \begin{answer}
 KAT
 \end{answer}
+Can you predict what will happen if you use KAT with larger K values?
+\begin{answer}
+%answer
+\end{answer}
+
 \end{questions}
 
 \begin{steps}
