@@ -58,10 +58,10 @@ After completing this module the trainee should be able to:
 Assuming by now you are familiar with the general concept of \textit{de novo} assembly, kmers and the de Bruijn graph based assembler. In this tutorial we will use ABySS to perform  the first pass assembly of a eukaryotic genome and look at various parameters to assess the information content of the input data and choice of assembly parameters. 
 sequence data. 
 Genome assembly is a challenging problem requiring heavy computational resources, expertise and time. Before you beging the process of denovo assembly there are a number of points you need to consider:
-\item What is the objective of your assembly experiment ? What biological question(s) you have ?
-\item Is assembly strictly neccessary for the purpose in question ?
-\item Do you have right kind of data and enough coverage to start with ?
-\item Do you have suitable computaitonal resources to run this assembly ?
+\item What is the objective of your assembly experiment? What biological question(s) you have?
+\item Is assembly strictly neccessary for the purpose in question?
+\item Do you have right kind of data and enough coverage to start with?
+\item Do you have suitable computaitonal resources to run this assembly?
 
 \end{information}
 
@@ -76,7 +76,7 @@ the correct number of times, in correct order and position.
 \subsection{Fusarium first pass with a goal}
 
 \begin{information}
-Goal: Identify a fusarium sample is "closer" to \textit{F. graminearum} or \textit{F.pseudograminearum}
+Goal: Identify a fusarium sample is ``closer" to \textit{F. graminearum} or \textit{F.pseudograminearum}
 \begin{itemize}
 	\item Previous knowledge
 		\begin{itemize}
@@ -118,8 +118,8 @@ ls
 
 \begin{steps}
 Let's assemble \textit{Fusarium} with abyss, k=71
-\begin{lstlisting}
 %%%%%%% CHECK THE PATH IN THE VM
+\begin{lstlisting}
 cd /home/trainee/eukaryotic
 mkdir abyss_k71
 cd abyss_k71
@@ -146,9 +146,10 @@ less CS3270_abyss_k71-stats.tab
 
 
 \begin{table}[H]
+\small
   \centering
   \caption{Statistics of fusarium assembly by ABySS using k=71}
-    \begin{tabular}{rrrrrrrrrrr}
+    \begin{tabular}{lllllllllll}
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
     \midrule
@@ -161,17 +162,17 @@ less CS3270_abyss_k71-stats.tab
 
 
 \begin{questions}
-How many unitigs/contigs do you have in the assembly?
+How many unitigs/contigs do you have in the assembly? \\
 \begin{answer}
-27/5
+27/5 \\
 \end{answer}
-What are the length statistics of your assembly?
+What are the length statistics of your assembly? \\
 \begin{answer}
-in the table above
+in the table above \\
 \end{answer}
-Does it match what you think before the assembly and why?
+Does it match what you think before the assembly and why? \\
 \begin{answer}
-No
+No \\
 \end{answer}
 
 \end{questions}
@@ -205,9 +206,9 @@ gnuplot> exit
 
 \start{steps}
 Looks like we are not assembling this bit, let's have another look at the spectra
-\start{lstlisting}
 %kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
+\start{lstlisting}
 kat comp -o reads_vs_abyss_k71 -t 4 -C -D --d1_bins 2000 '../*.fastq' CS3270_abyss_k71-contigs.fa
 kat plot spectra-cn -y 600 -x 2000 -o reads_vs_abyss1-main.mx.spectra-cn_2000.png reads_vs_abyss_k71-main.mx
 
@@ -250,9 +251,10 @@ less CS3270_abyss_k27-stats.tab
 
 Stats look better:
 \begin{table}[H]
+\small
   \centering
   \caption{Statistics of fusarium assembly by ABySS using k=27}
-    \begin{tabular}{rrrrrrrrrrr}
+    \begin{tabular}{lllllllllll}
     \toprule
     \textbf{n} & \textbf{n:500} & \textbf{L50} & \textbf{min} & \textbf{N80}& \textbf{N50}& \textbf{N20}& \textbf{E-size}& \textbf{max} & \textbf{sum}& \textbf{name}\\
     \midrule
@@ -306,11 +308,11 @@ kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffold
 
 
 \begin{questions}
-Any tools you can use to check kmer spectra at any K before assembling?
+Any tools you can use to check kmer spectra at any K before assembling? \\
 \begin{answer}
-KAT
+KAT \\
 \end{answer}
-Can you predict what will happen if you use KAT with larger K values?
+Can you predict what will happen if you use KAT with larger K values? \\
 \begin{answer}
 %answer
 \end{answer}
@@ -324,5 +326,5 @@ Use BLAST and the databases to check...
 \end{steps}
 
 \begin{enumerate}
-  \item De novo genome assembly: what every biologist should know Nature Methods 9, 333–337 (2012) doi:10.1038/nmeth.1935 
+  \item De novo genome assembly: what every biologist should know Nature Methods 9, 333\–337 (2012) doi:10.1038/nmeth.1935 
 \end{enumerate}
