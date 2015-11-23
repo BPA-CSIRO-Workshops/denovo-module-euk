@@ -24,7 +24,6 @@ After completing this module the trainee should be able to:
   \item Develop validation metrics or tools for NGS data and assembly.
   \item Improving methods and pipelines for genome assembly.
   \item Convince the lab guys to tweak protocols.
-
 \end{itemize}
 % END KLOs
 
@@ -45,10 +44,6 @@ After completing this module the trainee should be able to:
 \end{description}
 
 \section{Data source}
-
-%\begin{information}
-%Information to be provided to the trainee.
-%\end{information}
 
 \newpage
 
@@ -240,6 +235,7 @@ mkdir abyss_k27
 cd abyss_k27
 abyss-pe in="../CS3270_A8733_GCCAAT_L001_R1.fastq ../CS3270_A8733_GCCAAT_L001_R2.fastq" k=27 name=CS3270_abyss_k27 np=4 > CS3270_abyss_k27.log 2>&1
 \end{lstlisting}
+\end{steps}
 
 \begin{steps}
 Let's look at the stats by doing:
@@ -264,7 +260,6 @@ Stats look better:
   \label{tab:fusariumk27}
 \end{table}
 
-
 \begin{steps}
 Let's check a bit anyway:
 \begin{lstlisting}
@@ -282,18 +277,14 @@ gnuplot> set xrange [0:4000000]
 gnuplot> plot "coverage.hist"
 %exit gnuplot
 gnuplot> exit
-
 \end{lstlisting}
 \end{steps}
-
-
 
 \begin{steps}
 K-mer spectrum:
 \begin{lstlisting}
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
 kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffolds.fa
-
 \end{lstlisting}
 \end{steps}
 
@@ -304,7 +295,6 @@ kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffold
 \label{fig:fusariumk27}
 \end{figure}
 
-
 \begin{questions}
 Any tools you can use to check kmer spectra at any K before assembling?
 \begin{answer}
@@ -314,7 +304,6 @@ Can you predict what will happen if you use KAT with larger K values?
 \begin{answer}
 %answer
 \end{answer}
-
 \end{questions}
 
 \begin{steps}
