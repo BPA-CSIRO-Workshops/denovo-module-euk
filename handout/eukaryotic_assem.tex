@@ -200,10 +200,10 @@ gnuplot> exit
 
 
 \begin{steps}
-Looks like we are not assembling this bit, let's have another look at the spectra
-\begin{lstlisting}
+%\begin{lstlisting}
 %kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
+Looks like we are not assembling this bit, let's have another look at the spectra
 \start{lstlisting}
 kat comp -o reads_vs_abyss_k71 -t 4 -C -D --d1_bins 2000 '../*.fastq' CS3270_abyss_k71-contigs.fa
 kat plot spectra-cn -y 600 -x 2000 -o reads_vs_abyss1-main.mx.spectra-cn_2000.png reads_vs_abyss_k71-main.mx
@@ -228,7 +228,7 @@ Take the output and BLAST it in NCBI. What is it? Surprising?
 Choosing a wrong k value (too large in this case) and just running a typical assembly job, we can end up with something quite more interesting. It is easy by comparison to spot some missing content, alongside duplications and triplications (and quadruplications and so on) that should not be there.
 This assembly will get us nowhere, let's choose a lower K to gain coverage and start again.
 
-\subsection{Task1.2: First pass assembly, k=71}
+\subsection{Task1.2: First pass assembly, k=27}
 \begin{steps}
 We now assemble \textit{fusarium} with \texttt{abyss} and k=27:
 \begin{lstlisting}
@@ -285,8 +285,8 @@ gnuplot> exit
 
 \begin{steps}
 K-mer spectrum:
-\begin{lstlisting}
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
+\begin{lstlisting}
 kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffolds.fa
 \end{lstlisting}
 \end{steps}
@@ -317,5 +317,5 @@ Use BLAST and the databases to check...
 
 \section{References}
 \begin{enumerate}
-  \item De novo genome assembly: what every biologist should know Nature Methods 9, 333–337 (2012) doi:10.1038/nmeth.1935 
+  \item De novo genome assembly: what every biologist should know Nature Methods 9, 333 – 337 (2012) doi:10.1038/nmeth.1935 
 \end{enumerate}
