@@ -75,14 +75,14 @@ Goal: Identify a fusarium sample is ``closer" to \textit{F. graminearum} or \tex
 \begin{itemize}
 	\item Previous knowledge
 		\begin{itemize}
-		\item \textit{F. graminareum} has a cluster producing PKS6 and NRSP7, while F. pseudograminareum produces PKS40 and NRPS32
+		\item \textit{F. graminearum} has a cluster producing PKS6 and NRSP7, while F. pseudograminearum produces PKS40 and NRPS32
 		\end{itemize}
 	\item Data
 		\begin{itemize}
 		\item Proteins sequences for:
 			\begin{itemize}
-			\item \textit{F. graminareum} (non necrotrophic): PKS6 and NRSP7
-			\item \textit{F. pseudograminareum} (necrotrophic): PKS40 and NRPS32
+			\item \textit{F. graminearum} (non necrotrophic): PKS6 and NRSP7
+			\item \textit{F. pseudograminearum} (necrotrophic): PKS40 and NRPS32
 			\end{itemize}
 		\item Blast database of cereal pathogen proteins.
 		\end{itemize}
@@ -222,7 +222,6 @@ The kmer spectra for \textit{Fusarium} assembly with abyss, k=71 should be looki
 Take the output and BLAST it in NCBI. What is it? Surprising?
 
 \begin{steps}
-%Blast commands, May be pre-cooked
 \end{steps}
 
 Choosing a wrong k value (too large in this case) and just running a typical assembly job, we can end up with something quite more interesting. It is easy by comparison to spot some missing content, alongside duplications and triplications (and quadruplications and so on) that should not be there.
@@ -313,6 +312,11 @@ Can you predict what will happen if you use KAT with larger K values? \\
 Will the assembly answer the biological question?
 
 Use BLAST and the databases to check...
+\begin{lstlisting}
+makeblastdb -in CS3270_abyss_k27-scaffolds.fa -dbtype nucl
+tblastn -query ../test_genes.fasta -db CS3270_abyss_k27-scaffolds.fa -num_alignments 1 –outfmt "7 qacc sacc evalue qstart qend length qlen sstart send slen pident"
+\end{lstlisting}
+
 \end{steps}
 
 \section{References}
