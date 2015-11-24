@@ -19,7 +19,7 @@
 After completing this module the trainee should be able to:
 \begin{itemize}
   \item Assess general assembly approach, kmer spectra and biases.
-  \item visually inspect the kmer spectra and KAT plots
+  \item Visually inspect the kmer spectra and KAT plots
   \item Run a first pass eukaryotic assembly and do goal checks 
   \item Develop validation metrics or tools for NGS data and assembly.
   \item Improving methods and pipelines for genome assembly.
@@ -51,7 +51,7 @@ After completing this module the trainee should be able to:
 \section{First Pass Genome Assembly}
 \begin{information}
 Assuming by now you are familiar with the general concept of \textit{de novo} assembly, kmers and the de Bruijn graph based assembler. In this tutorial we will use ABySS to perform  the first pass assembly of a eukaryotic genome and look at various parameters to assess the information content of the input data and choice of assembly parameters. 
-sequence data. 
+sequence data.\\ 
 Genome assembly is a challenging problem requiring heavy computational resources, expertise and time. Before you beging the process of denovo assembly there are a number of points you need to consider:
 \item What is the objective of your assembly experiment? What biological question(s) you have?
 \item Is assembly strictly neccessary for the purpose in question?
@@ -109,7 +109,7 @@ ls
 \end{lstlisting}
 \end{steps}
 
-\subsection{Task1.1: First pass assembly, k=71}
+\section{Task1.1: First pass assembly, k=71}
 
 \begin{steps}
 Let's assemble \textit{Fusarium} with abyss, k=71
@@ -197,11 +197,11 @@ gnuplot> exit
 \end{lstlisting}
 \end{steps}
 
-
-\begin{steps}
 %\begin{lstlisting}
 %kat comp -o reads_vs_abyss_k71 '../*.fastq' CS3270_abyss_k71-contigs.fa
 %kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_1000_1000.png reads_vs_abyss1-main.mx
+
+\begin{steps}
 Looks like we are not assembling this bit, let's have another look at the spectra
 \begin{lstlisting}
 kat comp -o reads_vs_abyss_k71 -t 4 -C -D --d1_bins 2000 '../*.fastq' CS3270_abyss_k71-contigs.fa
@@ -246,7 +246,7 @@ Take the output and BLAST it in NCBI. What is it? Surprising?
 Choosing a wrong k value (too large in this case) and just running a typical assembly job, we can end up with something quite more interesting. It is easy by comparison to spot some missing content, alongside duplications and triplications (and quadruplications and so on) that should not be there.
 This assembly will get us nowhere, let's choose a lower K to gain coverage and start again.
 
-\subsection{Task1.2: First pass assembly, k=27}
+\section{Task1.2: First pass assembly, k=27}
 \begin{steps}
 We now assemble \textit{fusarium} with \texttt{abyss} and k=27:
 \begin{lstlisting}
@@ -296,15 +296,14 @@ gnuplot
 gnuplot> set xrange [0:50]
 gnuplot> set xrange [0:4000000]
 gnuplot> plot "coverage.hist"
-%exit gnuplot
 gnuplot> exit
 \end{lstlisting}
 \end{steps}
 
 \begin{steps}
 K-mer spectrum:
-%kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
 \begin{lstlisting}
+kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
 kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffolds.fa
 \end{lstlisting}
 \end{steps}
