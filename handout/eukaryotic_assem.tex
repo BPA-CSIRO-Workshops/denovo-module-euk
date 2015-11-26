@@ -331,10 +331,10 @@ Can you predict what will happen if you use KAT with larger K values? \\
 \begin{steps}
 Will the assembly answer the biological question?
 
-Use BLAST and the databases to check...
+Use BLAST  or BLAT and the databases to check...
 \begin{lstlisting}
 makeblastdb -in CS3270_abyss_k27-scaffolds.fa -dbtype nucl
-tblastn -query ../test_genes.fasta -db CS3270_abyss_k27-scaffolds.fa -num_alignments 1 –outfmt "7 qacc sacc evalue qstart qend length qlen sstart send slen pident"
+blat –t=dnax –q=prot –minIdentity=90 CS3270_abyss_k27-scaffolds.fa test_genes.fasta out.psl
 \end{lstlisting}
 
 \end{steps}
