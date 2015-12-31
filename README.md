@@ -1,4 +1,4 @@
-# denovo-module-bac
+# denovo-module-euk
 Bioinformatics Training Platform (BTP) Module: Eukaryote Genome Assembly
 
   * Topic
