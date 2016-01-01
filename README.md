@@ -18,8 +18,6 @@ Bioinformatics Training Platform (BTP) Module: Eukaryote Genome Assembly
     * Convince the lab guys to tweak protocols.
   * Time Required
     * 3.5 hrs
-  * Compute Requirements
-    * 
 
 License
 =======
