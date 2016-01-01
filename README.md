@@ -17,7 +17,7 @@ Bioinformatics Training Platform (BTP) Module: Eukaryote Genome Assembly
     * Improving methods and pipelines for genome assembly.
     * Convince the lab guys to tweak protocols.
   * Time Required
-    * 
+    * 3.5 hrs
   * Compute Requirements
     * 
 
