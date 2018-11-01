@@ -229,7 +229,7 @@ o
 The kmer spectra for *Fusarium* assembly with abyss, k=71 should be
 looking like this:
 
-[H] ![image](handout/abyss-k71.png) [fig:fusariumk71]
+[H] ![image](images/abyss-k71.png) [fig:fusariumk71]
 
 Take the output and BLAST it in NCBI. What is it? Surprising?
 
@@ -289,7 +289,7 @@ K-mer spectrum:
     kat plot spectra-cn -y 1000 -x 1000 -o reads_vs_abyss1-main.mx.spectra-cn_noabsent.png reads_vs_abyss1-main.mx
     kat comp -o reads_vs_abyss_k27 -t 4 -C -D '../*.fastq' CS3270_abyss_k27-scaffolds.fa
 
-[H] ![image](handout/abyss-k27.png) [fig:fusariumk27]
+[H] ![image](images/abyss-k27.png) [fig:fusariumk27]
 
 Any tools you can use to check kmer spectra at any K before assembling?\
 
