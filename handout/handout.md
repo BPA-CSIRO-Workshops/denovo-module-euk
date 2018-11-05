@@ -20,28 +20,22 @@ Resources You’ll be Using
 
 ### Tools Used
 
-Kmer Analysis Tool kit
-:   \
+Kmer Analysis Tool kit: \   
     <https://github.com/TGAC/KAT>
 
-Nextclip
-:   \
+Nextclip:   \
     <https://github.com/richardmleggett/nextclip>
 
-Abyss
-:   \
+Abyss:   \
     <http://www.bcgsc.ca/platform/bioinfo/software/abyss>
 
-Soap Denovo
-:   \
+Soap Denovo:   \
     <http://soap.genomics.org.cn/soapdenovo.html>
 
-SOAPec
-:   \
+SOAPec:   \
     <http://soap.genomics.org.cn/about.html>
 
-BLAST
-:   \
+BLAST:   \
     <http://blast.ncbi.nlm.nih.gov/Blast.cgi>
 
 First Pass Genome Assembly
@@ -123,14 +117,11 @@ Let’s assemble *Fusarium* with abyss, k=71
 
 Description of the arguments used in the command:
 
-k
-:   = kmer size
+k :   = kmer size
 
-np
-:   = number of processors to be used
+np :   = number of processors to be used
 
-sequence file names
-:   = R1 and R2 reads of a paired end sequence data
+sequence file names :   = R1 and R2 reads of a paired end sequence data
 
 Let’s look at the statistics of the assembly we just did...
 
@@ -141,15 +132,11 @@ Ok, there is no stats available in the folder, but we can always use
     less CS3270_abyss_k71-stats.tab
 
 [H]
+|||||||||||
 
-lllllllllll
-
-**n** & **n:500** & **L50** & **min** & **N80**& **N50**& **N20**&
-**E-size**& **max** & **sum**& **name**\
-27 & 13 & 2 & 970 & 6004 & 13202 & 52602 & 28712 & 52602 & 112849 &
-CS3270\_abyss\_k71-unitigs.fa%\
-5 & 1 & 1 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429 & 128429
-& CS3270\_abyss\_k71-contigs.fa%\
+**n** | **n:500** | **L50** | **min** | **N80**| **N50**| **N20**| **E-size**| **max** | **sum**| **name**\
+27 | 13 | 2 | 970 | 6004 | 13202 | 52602 | 28712 | 52602 | 112849 | CS3270\_abyss\_k71-unitigs.fa%\
+5 | 1 | 1 | 128429 | 128429 | 128429 | 128429 | 128429 | 128429 | 128429 | CS3270\_abyss\_k71-contigs.fa%\
 
 [tab:fusariumk71]
 
