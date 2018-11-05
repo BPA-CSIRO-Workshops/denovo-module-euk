@@ -134,22 +134,31 @@ Ok, there is no stats available in the folder, but we can always use
 
 |**n** | **n:500** | **L50** | **min** | **N80**| **N50**| **N20**| **E-size**| **max** | **sum**| **name**|
 |:----:|:-------:| :-----:| :----: | :----: |:----| :--------:|:------: |:-------: |:-------: |:-------: |
-|27 | 13 | 2 | 970 | 6004 | 13202 | 52602 | 28712 | 52602 | 112849 | CS3270\_abyss\_k71-unitigs.fa%|
-|5 | 1 | 1 | 128429 | 128429 | 128429 | 128429 | 128429 | 128429 | 128429 | CS3270\_abyss\_k71-contigs.fa%|
+|27 | 13 | 2 | 970 | 6004 | 13202 | 52602 | 28712 | 52602 | 112849 | CS3270\_abyss\_k71-unitigs.fa|
+|5 | 1 | 1 | 128429 | 128429 | 128429 | 128429 | 128429 | 128429 | 128429 | CS3270\_abyss\_k71-contigs.fa|
 
 [tab:fusariumk71]
 
-How many unitigs/contigs do you have in the assembly?\
 
-27/5\
+!!! note "Question"
+    How many unitigs/contigs do you have in the assembly?\
 
-What are the length statistics of your assembly?\
+!!! success ""
+    ??? "**Answer**"
+    27/5
 
-in the table above\
+!!! note "Question"
+    What are the length statistics of your assembly? 
+!!! success ""
+    ??? "**Answer**"
+    in the table above
 
-Does it match what you think before the assembly and why?\
+!!! note "Question"
+    Does it match what you think before the assembly and why?\
 
-No\
+!!! success ""
+    ??? "**Answer**"
+    No
 
 The assembly is looking strange! It’s time for some analysis:
 
@@ -242,18 +251,12 @@ Let’s look at the stats by doing:
 
 Stats look better:
 
-[H]
 
-lllllllllll
 
-**n** & **n:500** & **L50** & **min** & **N80**& **N50**& **N20**&
-**E-size**& **max** & **sum**& **name**\
-30645 & 2717 & 430 & 502 & 11354 & 25336 & 47966 & 31027 & 147694 &
-36.14e6 & CS3270\_abyss\_k27-unitigs.fa\
-21511 & 350 & 33 & 527 & 157565 & 338989 & 630228 & 407098 & 1265237 &
-36.52e6 & CS3270\_abyss\_k27-contigs.fa\
-21327 & 205 & 17 & 527 & 332444 & 716132 & 1265237 & 791882 & 1880850 &
-36.51e6 & CS3270\_abyss\_k27-scaffolds.fa\
+|**n** | **n:500** | **L50** | **min** | **N80**| **N50**| **N20**| |**E-size**| **max** | **sum**| **name**|
+|30645 | 2717 | 430 | 502 | 11354 | 25336 | 47966 | 31027 | 147694 | |36.14e6 | CS3270\_abyss\_k27-unitigs.fa|
+|21511 | 350 | 33 | 527 | 157565 | 338989 | 630228 | 407098 | 1265237 | |36.52e6 | CS3270\_abyss\_k27-contigs.fa|
+|21327 | 205 | 17 | 527 | 332444 | 716132 | 1265237 | 791882 | 1880850 | |36.51e6 | CS3270\_abyss\_k27-scaffolds.fa|
 
 [tab:fusariumk27]
 
@@ -277,13 +280,17 @@ K-mer spectrum:
 
 [H] ![image](images/abyss-k27.png) [fig:fusariumk27]
 
-Any tools you can use to check kmer spectra at any K before assembling?\
+!!! note "Question"
+    Any tools you can use to check kmer spectra at any K before assembling?
+!!! success ""
+    ??? "**Answer**"
+    KAT
 
-KAT\
+!!! note "Question"
+    Can you predict what will happen if you use KAT with larger K values?\
 
-Can you predict what will happen if you use KAT with larger K values?\
-
-Will the assembly answer the biological question?
+!!! note "Question"
+    Will the assembly answer the biological question?
 
 Use BLAST or BLAT and the databases to check...
 
