@@ -171,14 +171,14 @@ following commands:
     less coverage.hist
 
 We will now plot the values from the `coverage.hist`:
-
+```
     gnuplot <Press enter>
     gnuplot> set xrange [0:200]
     gnuplot> set yrange [0:5000]
     gnuplot> plot "coverage.hist"
     Type exit or quit to leave the gnuplot
     gnuplot> exit
-
+```
 Looks like we are not assembling this bit, let’s have another look at
 the spectra
 
